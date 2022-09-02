@@ -17,7 +17,7 @@ public class WardManagement {
 	@GetMapping(path = "/info")
 	public @ResponseBody String getWardInfo() {
 
-		return "Ward Mnagement";
+		return "Ward Mnagementd details";
 	}
 	
 }
