@@ -1,5 +1,7 @@
 package com.trion.healthcare.entity;
 
+import java.io.Serializable;
+
 import javax.annotation.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,8 +10,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Department {
+public class Department implements Serializable{
 	
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1950746722247092067L;
 @Id
 @GeneratedValue (strategy = GenerationType.AUTO)
 private int id;
