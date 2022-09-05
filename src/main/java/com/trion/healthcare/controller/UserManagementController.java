@@ -2,6 +2,8 @@ package com.trion.healthcare.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,8 @@ import com.trion.healthcare.service.IUserManagementService;
 @RestController
 public class UserManagementController {
 
+	protected Logger logger = LoggerFactory.getLogger(getClass().getName());
+	
 	@Autowired
 	IUserManagementService userManagementService;
 
@@ -48,7 +52,7 @@ public class UserManagementController {
 	
 	@GetMapping(path = "/getUserById/{id}")
 	public @ResponseBody Users getUserById(@PathVariable Integer id) throws UserNotFoundException {
-
+		logger.debug("user entered seach string as "+ id);
 		return userManagementService.getUserById(id);
 	}
 	
