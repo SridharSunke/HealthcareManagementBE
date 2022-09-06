@@ -20,7 +20,7 @@ public class UserManagementServiceImpl implements IUserManagementService {
 
 	@Override
 	public void saveusers(Users user) {
-		usersRepository.save(user);		
+		usersRepository.save(user);
 	}
 
 	public List<Users> findAllUsers() {
@@ -29,26 +29,57 @@ public class UserManagementServiceImpl implements IUserManagementService {
 
 	@Override
 	public void delete(Users user) {
-		usersRepository.delete(user);		
+		usersRepository.delete(user);
 	}
 
 	@Override
 	public void update(Users user) {
 		usersRepository.save(user);
-		
+
 	}
 
 	@Override
 	public Users getUserById(Integer id) throws UserNotFoundException {
-		logger.info("User tying to search with ID "+ id);
+		logger.info("User tying to search with ID " + id);
 		Users user = null;
-		if(usersRepository.findById(id).isPresent()) {
-			 user = usersRepository.findById(id).get();
-		}else {
-			logger.error(" no User was found with ID "+ id);
-			throw new UserNotFoundException(" noUsert found with ID "+ id);
+		if (usersRepository.findById(id).isPresent()) {//existsById(id)) 
+			user = usersRepository.findById(id).get();
+		} else {
+			logger.error(" no User was found with ID " + id);
+			throw new UserNotFoundException(" noUsert found with ID " + id);
 		}
 		return user;
 	}
 
+	@Override
+	public void updateLastName(Integer id, String lastName) {
+		try {
+			logger.info("receive last name update for id " + id + " value " + lastName);
+			Users user = getUserById(id);
+			user.setLastName(lastName);
+			usersRepository.save(user);
+		} catch (UserNotFoundException e) {
+			logger.error("error while updating last name " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public Users updateUserPassword(String userName, String password) {
+		Users user = null;
+		if (usersRepository.findByUserName(userName).isPresent()) {
+			user = usersRepository.findByUserName(userName).get();
+		} else {
+			logger.info(" no User was found with userName " + userName);
+			user = new Users();
+			user.setUserName(userName);			
+			user.setFirstName(userName);
+		}
+
+		user.setPassword(password);
+		usersRepository.save(user);
+		return null;
+	}
+
+	
 }

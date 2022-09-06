@@ -12,10 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Users implements Serializable{
-	/**
-	 * 
-	 */
+public class Users implements Serializable {
+
 	private static final long serialVersionUID = 6077289040586571091L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,10 +23,16 @@ public class Users implements Serializable{
 	private String firstName;
 	@Column(name = "last_name")
 	private String lastName;
-	
+
 	@ManyToOne
-	@JoinColumn(name="department_id")
+	@JoinColumn(name = "department_id")
 	private Department departmentId;
+
+	@Column(name = "user_Name")
+	private String userName;
+
+	@Column(name = "password")
+	private String password;
 
 	public int getId() {
 		return id;
@@ -54,7 +58,6 @@ public class Users implements Serializable{
 		this.lastName = lastName;
 	}
 
-	
 	public Department getDepartmentId() {
 		return departmentId;
 	}
@@ -63,6 +66,20 @@ public class Users implements Serializable{
 		this.departmentId = departmentId;
 	}
 
-	
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 }
