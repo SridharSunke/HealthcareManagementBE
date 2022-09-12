@@ -5,15 +5,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.trion.healthcare.exception.DepartmentNotFoundException;
 import com.trion.healthcare.exception.UserNotFoundException;
+import com.trion.healthcare.model.RestError;
 
 @ControllerAdvice
 public class RestErrorHandler {
 	
 	@ExceptionHandler(UserNotFoundException.class)
-	public ResponseEntity<String> handleUserNotFoundException() {
-		return new ResponseEntity("User Not Found For This Request",HttpStatus.NOT_FOUND);
+	public ResponseEntity<String> handleUserNotFoundException(Exception e) {
+		return new ResponseEntity(e.getMessage(),HttpStatus.NOT_FOUND);
 		
 	}
-
+	
+	@ExceptionHandler(DepartmentNotFoundException.class)
+	public ResponseEntity<RestError> handleDepartNotFoundException(Exception e){
+		return new ResponseEntity(new RestError(e),HttpStatus.BAD_REQUEST);
+		
+	}
 }

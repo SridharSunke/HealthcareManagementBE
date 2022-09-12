@@ -1,6 +1,7 @@
 package com.trion.healthcare.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.trion.healthcare.entity.Department;
+import com.trion.healthcare.entity.Users;
 import com.trion.healthcare.exception.DepartmentNotFoundException;
 import com.trion.healthcare.service.IDepartmentManagementService;
 
@@ -38,6 +40,14 @@ public class DepartmentController {
 		return iDepartmentManagementService.findAllDepartment();
 
 	}
+	
+	@GetMapping(path = "/getDepartmentDoctors")
+	public @ResponseBody Map<Department, List<Users>> getDepartmentDoctors() {
+
+		return iDepartmentManagementService.getDepartmentDoctors();
+
+	}
+
 
 	@PostMapping(path = "/update")
 	public String updateDepartment(@RequestBody Department department) {

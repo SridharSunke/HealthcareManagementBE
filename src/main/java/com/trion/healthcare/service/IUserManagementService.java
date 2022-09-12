@@ -2,6 +2,7 @@ package com.trion.healthcare.service;
 
 import java.util.List;
 
+import com.trion.healthcare.entity.Department;
 import com.trion.healthcare.entity.Users;
 import com.trion.healthcare.exception.UserNotFoundException;
 
@@ -20,8 +21,8 @@ public interface IUserManagementService {
 
 	Users updateUserPassword(String userName, String password);
 
-	
+	void updateDepartmentId(Integer departmentid,Integer id) throws Exception;
 
 	
-
+	
 }

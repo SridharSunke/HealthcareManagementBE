@@ -1,6 +1,7 @@
 package com.trion.healthcare.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.trion.healthcare.entity.Department;
 import com.trion.healthcare.entity.Users;
 import com.trion.healthcare.exception.UserNotFoundException;
 import com.trion.healthcare.service.IUserManagementService;
@@ -27,8 +29,8 @@ public class UserManagementController {
 	@Autowired
 	IUserManagementService userManagementService;
 
-	//@GetMapping(path = "/all")
-	@RequestMapping(value = "/all", method = RequestMethod.GET)  
+	// @GetMapping(path = "/all")
+	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	public @ResponseBody List<Users> getAllUsers() {
 
 		return userManagementService.findAllUsers();
@@ -40,11 +42,27 @@ public class UserManagementController {
 		return "success";
 	}
 
-	//@PostMapping("/update")
-	@RequestMapping(value = "/update", method = RequestMethod.POST)  
-	public String updateUser(@RequestBody Users user) {
-		userManagementService.update(user);
-		return "success";
+//	@PostMapping("/updateDepartment/{id}")
+//	public String updateDepartment(@RequestBody Map params) {
+//		logger.info("id " + params.get("id"));
+//		logger.info("departmentId " + params.get("departmentId"));
+//
+//		userManagementService.saveusers();
+//		return "success";
+//	}
+
+	@PostMapping("/updateDepartment/{id}")
+	public String updateDepartment(@PathVariable Integer id, @RequestBody Map departmentid) throws Exception {
+		userManagementService.updateDepartmentId((Integer)departmentid.get("departmentid"), id);
+		return "Department updated ";
+	// we can send request as json format 
+	}
+	
+	@PostMapping("/updateDepartmentWithInteger/{id}")
+	public String updateDepartmentWithInteger(@PathVariable Integer id, @RequestBody Integer departmentid) throws Exception {
+		userManagementService.updateDepartmentId(departmentid, id);
+		return "Department updated ";
+		// we can send request as Integer only
 	}
 
 	@PostMapping("/updateLastName/{id}")
@@ -58,6 +76,13 @@ public class UserManagementController {
 		logger.info("added Uname/pword");
 		userManagementService.updateUserPassword(userName, password);
 		return "Successfully Added Uname/pword";
+	}
+
+	// @PostMapping("/update")
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public String updateUser(@RequestBody Users user) {
+		userManagementService.update(user);
+		return "success";
 	}
 
 	@DeleteMapping("/delete")
