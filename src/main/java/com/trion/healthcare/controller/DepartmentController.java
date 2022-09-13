@@ -68,9 +68,12 @@ public class DepartmentController {
 		return "Successfully Deleted";
 
 	}
-@GetMapping(path="/getById/{id}")
-	public @ResponseBody Department getAllDepartmentById(@PathVariable Integer id) throws DepartmentNotFoundException {
-		return iDepartmentManagementService.getDepartmentById(id);
+    @GetMapping(path="/getById/{id}")
+	public @ResponseBody Department getAllDepartmentById(@PathVariable Integer id)
+			throws DepartmentNotFoundException {
+	return iDepartmentManagementService.getDepartmentById(id);
 	}
+    
+
 
 }

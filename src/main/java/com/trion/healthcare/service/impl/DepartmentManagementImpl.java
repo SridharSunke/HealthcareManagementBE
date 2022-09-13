@@ -2,8 +2,11 @@ package com.trion.healthcare.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +23,7 @@ public class DepartmentManagementImpl implements IDepartmentManagementService {
 
 	@Autowired
 	DepartmentRepository departmentRepository;
-	
+
 	@Autowired
 	UsersRepository usersRepository;
 
@@ -64,17 +67,55 @@ public class DepartmentManagementImpl implements IDepartmentManagementService {
 	@Override
 	public Map<Department, List<Users>> getDepartmentDoctors() {
 		Map<Department, List<Users>> data = new HashMap<>();
-		usersRepository.findAll().forEach(user -> {
-			if(data.get(user.getDepartmentId()) == null){
-				List<Users> userList = new ArrayList<Users>();
-				userList.add(user);
-				data.put(user.getDepartmentId(),userList );
-			}else {
-				List<Users> userList = data.get(user.getDepartmentId());
-				userList.add(user);
-			}
-		});
+		
+//	//===========================================================================
+//		//Approach 1
+//		Iterable<Users> iteratable = usersRepository.findAll();
+//		Iterator<Users> it = iteratable.iterator();
+//		while(it.hasNext()) {
+//			Users user = it.next();
+//			if(data.get(user.getDepartmentId()) == null){
+//				  List<Users> userList = new
+//				  ArrayList<Users>(); userList.add(user);
+//				  data.put(user.getDepartmentId(),userList );
+//			}else { List<Users> userList =
+//				  data.get(user.getDepartmentId()); userList.add(user);
+//			}
+//		}
+	//==========================================================================
+//		// Reading the values 
+//		Set<Department> depSet =  data.keySet();
+//		Iterator<Department> depIt = depSet.iterator();
+//		
+//		
+//		while(depIt.hasNext()) {
+//			Department dp= depIt.next();
+//			List<Users> ul = data.get(dp);
+//			System.out.println("department : "+ dp.getName());
+//			System.out.println("--------");
+//			for (Users users : ul) {
+//				System.out.println("Doctor Name : " + users.getFirstName() + " " + users.getLastName());
+//			}
+//			
+//			System.out.println("=========");
+//			
+//		}
+		//===========================================================================
+		//approach 2
+		
+		  usersRepository.findAll().forEach(user -> {
+		  if(data.get(user.getDepartmentId()) == null){ 
+			List<Users> userList = new ArrayList<Users>();
+			userList.add(user);
+		  data.put(user.getDepartmentId(),userList );
+		  
+		  }else { List<Users> userList =
+		  data.get(user.getDepartmentId());
+		  userList.add(user); 
+		  } });
+		 
 		return data;
 	}
+
 
 }
