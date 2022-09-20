@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +30,13 @@ public class WardManagementServiceImpl implements WardManagementService {
 	public List<WardManagement> findAll() {
 		return (List<WardManagement>) managementRepository.findAll();
 	}
-	
+
 	public WardManagement getWardDetail(String wardType) {
-		
-		return findAll().stream().filter(ward ->ward.getWarddType().equals(wardType)).findFirst().get();
+Optional<WardManagement> ward1 =findAll().stream().filter(ward -> ward.getWarddType().equals(wardType)).findFirst();
+if(ward1.isPresent()) {
+	return ward1.get();
+}
+		return null;
 	}
 
 	@Override
@@ -90,16 +95,26 @@ public class WardManagementServiceImpl implements WardManagementService {
 	@Override
 	public List<WardManagement> getByCapacity(Integer capacity) {
 
-		List<WardManagement> list = findAll().stream().filter(wards -> wards.getCapacity() == capacity).collect(Collectors.toList());
-		
+		List<WardManagement> list = findAll().stream().filter(wards -> wards.getCapacity() == capacity)
+				.collect(Collectors.toList());
+
 		return list;
 	}
 
 	@Override
 	public List<String> getByName(String wardType) {
 		List<String> names = findAll().stream().map(wards -> wards.getWarddType()).collect(Collectors.toList());
-		
+
 		return names;
+	}
+
+	@Override
+	public List<String> getByReporter(String reporter) {
+
+		List<String> repo = findAll().stream().map(rpt -> rpt.getReporter()).collect(Collectors.toList());
+
+		return repo;
+
 	}
 
 }

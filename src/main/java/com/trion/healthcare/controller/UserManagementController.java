@@ -32,7 +32,7 @@ public class UserManagementController {
 	// @GetMapping(path = "/all")
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	public @ResponseBody List<Users> getAllUsers() {
-
+		
 		return userManagementService.findAllUsers();
 	}
 

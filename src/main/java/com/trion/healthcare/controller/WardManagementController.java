@@ -94,4 +94,9 @@ public class WardManagementController {
 
 		return wardManagementServiceImpl.getByCapacity(capacity);
 	}
+
+	@GetMapping("/getByReporter/{reporter}")
+	public @ResponseBody List<String> getByReporter(@PathVariable String reporter) {
+		return wardManagementServiceImpl.getByReporter(reporter);
+	}
 }

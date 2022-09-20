@@ -25,4 +25,6 @@ public interface WardManagementService {
 
 	List<String> getByName(String wardType);
 
+	List<String> getByReporter(String reporter);
+
 }
