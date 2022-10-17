@@ -3,6 +3,7 @@ package com.trion.healthcare.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.trion.healthcare.entity.Department;
 import com.trion.healthcare.entity.Users;
 import com.trion.healthcare.exception.UserNotFoundException;
 import com.trion.healthcare.service.IUserManagementService;
@@ -32,7 +32,7 @@ public class UserManagementController {
 	// @GetMapping(path = "/all")
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	public @ResponseBody List<Users> getAllUsers() {
-		
+
 		return userManagementService.findAllUsers();
 	}
 
@@ -53,13 +53,26 @@ public class UserManagementController {
 
 	@PostMapping("/updateDepartment/{id}")
 	public String updateDepartment(@PathVariable Integer id, @RequestBody Map departmentid) throws Exception {
-		userManagementService.updateDepartmentId((Integer)departmentid.get("departmentid"), id);
+		userManagementService.updateDepartmentId((Integer) departmentid.get("departmentid"), id);
 		return "Department updated ";
-	// we can send request as json format 
+		// we can send request as json format
 	}
-	
+
+	@PostMapping(path = "/search")
+	public List<Users> getfirstNameAndOrlastNameme(@RequestBody Map map) throws Exception {
+		return (List<Users>) userManagementService.getfirstNameAndOrlastName((String) map.get("firstName"),
+				(String) map.get("lastName"));
+	}
+
+	@PostMapping(path="/criteria")
+	public List<Users> getUsersByCriteria(@RequestBody Map map) throws Exception {
+		return (List<Users>) userManagementService.getUsersByCriteria(map);
+
+	}
+
 	@PostMapping("/updateDepartmentWithInteger/{id}")
-	public String updateDepartmentWithInteger(@PathVariable Integer id, @RequestBody Integer departmentid) throws Exception {
+	public String updateDepartmentWithInteger(@PathVariable Integer id, @RequestBody Integer departmentid)
+			throws Exception {
 		userManagementService.updateDepartmentId(departmentid, id);
 		return "Department updated ";
 		// we can send request as Integer only
@@ -101,6 +114,11 @@ public class UserManagementController {
 	public IUserManagementService getUserManagementService() {
 		return userManagementService;
 	}
+
+//	@PostMapping(path = "/fname/{firstName}")
+//	public @ResponseBody Users getByCriteria(@PathVariable String firstName,@RequestBody String lastName) throws UserNotFoundException {
+//		return  userManagementService.getByCriteria(firstName,lastName);
+//	}
 
 	public void setUserManagementService(IUserManagementService userManagementService) {
 		this.userManagementService = userManagementService;
